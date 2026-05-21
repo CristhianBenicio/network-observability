@@ -1,0 +1,22 @@
+name: PowerShell Validation
+
+on:
+push:
+branches:
+- main
+
+jobs:
+validation:
+runs-on: windows-latest
+
+```
+steps:
+  - name: Checkout repository
+    uses: actions/checkout@v4
+
+  - name: Run PowerShell validation
+    shell: pwsh
+    run: |
+      Write-Host "Starting infrastructure monitoring validation..."
+      Get-ChildItem
+```
