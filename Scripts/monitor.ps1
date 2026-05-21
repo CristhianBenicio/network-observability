@@ -69,11 +69,13 @@ while ($true) {
 "
     }
 
+$dataAtualizacao = Get-Date -Format "dd/MM/yyyy HH:mm:ss"
+
     $html = @"
 
 <html>
 <head>
-
+<meta charset='UTF-8'>
 <meta http-equiv='refresh' content='10'>
 
 <style>
@@ -129,6 +131,24 @@ tr:hover {
 <body>
 
 <h1>MONITOR DE REDE</h1>
+<div style='
+background-color:#161b22;
+padding:15px;
+margin-bottom:20px;
+border-radius:10px;
+box-shadow:0px 0px 10px rgba(88,166,255,0.2);
+width:fit-content;
+'>
+
+<div style='color:#58a6ff;font-size:18px;font-weight:bold;'>
+ Ultima atualização: $dataAtualizacao
+</div>
+
+<div style='color:#8b949e;font-size:15px;margin-top:5px;'>
+ Proxima atualização em: 10 segundos
+</div>
+
+</div>
 
 <h3 style='color:green;'>ONLINE: $online</h3>
 <h3 style='color:red;'>OFFLINE: $offline</h3>
@@ -154,7 +174,7 @@ $tabela
 
     $relatorio = "C:\Projetos\MonitoraRibeirao\Relatorio\relatorio.html"
 
-    $html | Out-File $relatorio -Encoding UTF8
+    $html | Set-Content $relatorio -Encoding UTF8
 
     Write-Host ""
     Write-Host "MONITOR EXECUTADO EM: $(Get-Date)"
