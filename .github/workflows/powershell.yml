@@ -1,19 +1,18 @@
 name: PowerShell Validation
 
 on:
-push:
-  branches:
-    - main
+    push:
+        branches:
+            - main
 
 jobs:
-  validation:
-    runs-on: windows-latest
+    validation:
+        runs-on: windows-latest
 
-steps:
-  - uses: actions/checkout@v4
+        steps:
+            - uses: actions/checkout@v4
 
-  - name: Validate PowerShell
-    shell: pwsh
-    run: |
-      Write-Host "Pipeline running successfully"
-
+            - name: Validate PowerShell
+                shell: pwsh
+                run: |
+                    Write-Host "Pipeline running successfully"
