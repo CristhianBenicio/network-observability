@@ -2,12 +2,12 @@ name: PowerShell Validation
 
 on:
 push:
-branches:
-- main
+  branches:
+    - main
 
 jobs:
-validation:
-runs-on: windows-latest
+  validation:
+    runs-on: windows-latest
 
 steps:
   - uses: actions/checkout@v4
