@@ -33,7 +33,7 @@ while ($true) {
 
             $status = "<span style='color:#3fb950;font-weight:bold;text-shadow:0px 0px 8px #3fb950;'>UP</span>"
             $latencia = "$($teste.ResponseTime) ms"
-            $cor = "#3a0f12"
+            $cor = "#0d4429"
 
             $online++
 
@@ -42,7 +42,7 @@ while ($true) {
 
             $status = "<span style='color:#f85149;font-weight:bold;text-shadow:0px 0px 8px #f85149;'>DOWN</span>"
             $latencia = "Timeout"
-            $cor = "#f8d7da"
+            $cor = "#5a1e24"
 
             $offline++
         }
@@ -141,11 +141,11 @@ width:fit-content;
 '>
 
 <div style='color:#58a6ff;font-size:18px;font-weight:bold;'>
- Ultima atualização: $dataAtualizacao
+ Ultima atualizacao: $dataAtualizacao
 </div>
 
 <div style='color:#8b949e;font-size:15px;margin-top:5px;'>
- Proxima atualização em: 10 segundos
+ Proxima atualizacao em: 10 segundos
 </div>
 
 </div>
