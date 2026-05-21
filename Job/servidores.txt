@@ -2,7 +2,7 @@ Google DNS;8.8.8.8
 Cloudflare DNS;1.1.1.1
 Roteador;192.168.101.1
 Televisao da sala; 192.168.101.10
-Notebook Samsung (SEM ICMP); 192.168.101.2
+Notebook Samsung (SEM ICMP); 192.168.101.20
 Circuito da sala (Alexa) (SEM ICMP); 192.168.101.4
 Circuito Externo (Alexa ECODOT 2) (SEM ICMP); 192.168.101.3
 
