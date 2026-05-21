@@ -9,7 +9,6 @@ jobs:
 validation:
 runs-on: windows-latest
 
-```
 steps:
   - uses: actions/checkout@v4
 
@@ -17,4 +16,4 @@ steps:
     shell: pwsh
     run: |
       Write-Host "Pipeline running successfully"
-```
+
