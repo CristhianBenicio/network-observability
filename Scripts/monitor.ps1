@@ -27,12 +27,12 @@ while ($true) {
         $tipo = if ($dados.Length -ge 3 -and $dados[2].Trim() -ne "") { $dados[2].Trim().ToUpper() } else { "ICMP" }
 
         switch ($tipo) {
-            "TCP" {
-                $teste = Test-NetConnection -ComputerName $ip -Port 80 -WarningAction SilentlyContinue
-                $ping = $null -ne $teste -and $teste.TcpTestSucceeded
-                $tipoLabel = "TCP"
+            "ARP" {
+                $resultadoArp = cmd /c "arp -a | findstr $ip" 2>$null
+                $ping = $resultadoArp -ne $null -and $resultadoArp.Trim() -ne ""
+                $tipoLabel = "ARP"
                 if ($ping) {
-                    $latencia = "Port 80"
+                    $latencia = "ARP OK"
                 }
                 else {
                     $latencia = "Timeout"
@@ -77,6 +77,7 @@ while ($true) {
 $dataAtualizacao = Get-Date -Format "dd/MM/yyyy HH:mm:ss"
 $totalServidores = $online + $offline
 $percentualOnline = if ($totalServidores -gt 0) { [math]::Round(($online / $totalServidores) * 100, 1) } else { 0 }
+$percentualOffline = if ($totalServidores -gt 0) { [math]::Round(100 - $percentualOnline, 1) } else { 0 }
 
     $html = @"
 <!DOCTYPE html>
@@ -210,6 +211,69 @@ $percentualOnline = if ($totalServidores -gt 0) { [math]::Round(($online / $tota
         .kpi-card.online::before {
             background: linear-gradient(90deg, var(--success), transparent);
         }
+
+        .chart-card {
+            background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 22px;
+            margin-bottom: 24px;
+        }
+
+        .chart-title {
+            font-size: 1.1em;
+            font-weight: 700;
+            margin-bottom: 18px;
+            color: var(--text-primary);
+        }
+
+        .chart-bar {
+            height: 30px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.08);
+            position: relative;
+            margin-bottom: 12px;
+            overflow: hidden;
+        }
+
+        .chart-bar-inner {
+            height: 100%;
+            border-radius: 999px;
+            transition: width 0.4s ease;
+        }
+
+        .chart-bar.online .chart-bar-inner {
+            background: linear-gradient(90deg, var(--success), rgba(74, 222, 128, 0.45));
+        }
+
+        .chart-bar.offline .chart-bar-inner {
+            background: linear-gradient(90deg, var(--danger), rgba(248, 113, 113, 0.45));
+        }
+
+        .chart-legend {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            margin-top: 12px;
+            font-size: 0.95em;
+            color: var(--text-secondary);
+        }
+
+        .chart-legend span {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .legend-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .legend-online { background: var(--success); }
+        .legend-offline { background: var(--danger); }
 
         .kpi-card.offline::before {
             background: linear-gradient(90deg, var(--danger), transparent);
@@ -477,6 +541,20 @@ $percentualOnline = if ($totalServidores -gt 0) { [math]::Round(($online / $tota
                 <div class='kpi-label'>Taxa de Disponibilidade</div>
                 <div class='kpi-value'>$percentualOnline%</div>
                 <div class='kpi-percent'>Saude da rede</div>
+            </div>
+        </div>
+
+        <div class='chart-card'>
+            <div class='chart-title'>Online vs Offline</div>
+            <div class='chart-bar online'>
+                <div class='chart-bar-inner' style='width: $percentualOnline%'></div>
+            </div>
+            <div class='chart-bar offline'>
+                <div class='chart-bar-inner' style='width: $percentualOffline%'></div>
+            </div>
+            <div class='chart-legend'>
+                <span><span class='legend-dot legend-online'></span>Online: $online ($percentualOnline%)</span>
+                <span><span class='legend-dot legend-offline'></span>Offline: $offline ($percentualOffline%)</span>
             </div>
         </div>
 
